@@ -1,3 +1,5 @@
 secrets
 secrets.py
 test.py
+creds.py
+*.pyc

@@ -1,15 +1,15 @@
 import requests
 import json
-import secrets # this is a secrets.py file, saves me the extra dependancy
+import creds # this is a secrets.py file, saves me the extra dependancy
 #API Vars
 AUTH_URL = 'https://accounts.spotify.com/api/token'
-BASE_URL = 'https://api.spotify.com/v1/'
+BASE_URL = 'https://api.spotify.com/v1'
 
 #get the token
 auth_response = requests.post(AUTH_URL, {
     'grant_type': 'client_credentials',
-    'client_id': secrets.client_id,
-    'client_secret': secrets.client_secret]
+    'client_id': creds.client_id,
+    'client_secret': creds.client_secret
 })
 
 auth_reponse_json = auth_response.json()
@@ -18,15 +18,15 @@ access_token = auth_reponse_json['access_token']
 headers = {
     'Authorization': f'Bearer {access_token}'
 }
-
+query = input("Enter an Artist Name to Search: ")
 # Test Params
 params = {
-    'q': 'Hot Mulligan',
+    'q': query,
     'type': 'artist',
     'limit': 1 # 1 result
 }
 # Perform the GET request
-response = requests.get(f'{BASE_URL}search?', headers=headers, params=params)
+response = requests.get(f'{BASE_URL}/search?', headers=headers, params=params)
 if response.status_code == 200:
     results = response.json()
     #print(json.dumps(results, indent=2))
