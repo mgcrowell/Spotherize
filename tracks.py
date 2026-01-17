@@ -6,6 +6,9 @@ import spothorize #imports auth flow from authorize.py
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1'
 
+def process_liked_songs(json_data):
+    return
+
 #Authorize
 auth_code = spothorize.get_authorization_code()
 print(f'\nauth_code: {auth_code}')
@@ -29,8 +32,9 @@ else:
     print(f"Failed with code: {response.status_code}")
 
 # Perform the GET request for User Playlists
-response = requests.get(f'{BASE_URL}/users/{user_id}/playlists',headers = headers)
+response = requests.get(f'{BASE_URL}/me/tracks',headers = headers)
 if response.status_code == 200:
     results = response.json()
-    print("\n\nPlaylists:\n")
+
+    print("\n\nLiked Songs:\n")
     print(json.dumps(results, indent=2))

@@ -1,22 +1,18 @@
 import requests
 import json
 import creds # this is a secrets.py file, saves me the extra dependancy
+import spothorize #imports auth flow from authorize.py
 #API Vars
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 BASE_URL = 'https://api.spotify.com/v1'
 
-#get the token
-auth_response = requests.post(AUTH_URL, {
-    'grant_type': 'client_credentials',
-    'client_id': creds.client_id,
-    'client_secret': creds.client_secret
-})
+#Authorize
+auth_code = spothorize.get_authorization_code()
+request_token = spothorize.exchange_code_for_token(auth_code)
+auth_token = request_token['access_token']
 
-auth_reponse_json = auth_response.json()
-
-access_token = auth_reponse_json['access_token']
 headers = {
-    'Authorization': f'Bearer {access_token}'
+    'Authorization': f'Bearer {auth_token}'
 }
 query = input("Enter an Artist Name to Search: ")
 # Test Params
